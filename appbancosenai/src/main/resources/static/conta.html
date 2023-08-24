@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro da conta</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+
+<body>
+<a href="index.html">Cadastro de pessoa</a>
+<a href="conta.html">Cadastro de conta corrente</a>
+<a href="gerenciar.html">Gerenciar conta</a>
+<a href="contato.html">contato</a>
+
+<br>
+
+<div>
+
+    <h1>Cadastro de uma conta corrente</h1>
+
+    <label>Número da conta</label>
+    <input for="number_conta" type="text" readonly>
+    <br>
+    <label>Saldo</label>
+    <input for="saldo" type="text" required>
+    <br><br>
+    <label for="tipo_conta">Selecione o tipo da conta: </label>
+    <select id="tipo_conta">
+        <option value="corrente">Conta corrente</option>
+        <option value="poupança">Conta poupança</option>
+    </select><br>
+        <label for="pessoa">Selecione uma pessoa: </label>
+    <select id="pessoa"></select>
+    <br>
+    <button type="button">Cadastrar conta</button>
+
+
+</div>
+
+<script src="conta.js"></script>
+</body>
+
+</html>

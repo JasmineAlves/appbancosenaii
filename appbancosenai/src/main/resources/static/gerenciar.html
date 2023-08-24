@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banco Digital - SENAI</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+<a href="index.html">Cadastrar pessoa</a>
+<a href="conta.html">Cadastrar conta</a>
+<a href="gerenciar.html">Gerenciar conta</a>
+<a href="contato.html">Contatos</a>
+<div>
+
+    <form>
+        <h1>Gerenciamento de conta:</h1>
+        <p>Escolha uma opção: </p>
+
+        <label for="depositar">Depositar:</label>
+        <br>
+        <label for="pessoa">Selecione a conta</label>
+        <br>
+        <select id = "pessoa"></select>
+        <br><br>
+
+        <label for="depositar">Valor em R$</label>
+        <br>
+        <input id="depositar" type = text required>
+        <br>
+        <button type="button">Depósito</button>
+        <br><br>
+
+
+        <label for="sacar">Sacar:</label>
+        <br>
+        <label for="pessoa1">Qual será a conta?</label>
+        <br>
+        <select id = "pessoa1"></select>
+        <br><br>
+
+        <label for="sacar">Valor R$</label>
+        <br>
+        <input id="sacar" type = text required>
+        <br><br>
+        <button type="button">Sacar</button>
+        <br><br><br>
+
+        <label for="quantidade">Transferir:</label>
+        <br>
+        <label for="pessoa2">Quem irá efetuar a transferência?</label>
+        <br>
+        <select id = "pessoa2"></select>
+        <br><br>
+        <label for="pessoa3">Quem irá receber a transferência?</label>
+        <br>
+        <select id="pessoa3"></select>
+        <br><br>
+        <label for="quantidade">Valor R$</label>
+        <br>
+        <input id="quantidade" type = text required>
+        <br><br>
+        <button type="button">Transferir</button>
+    </form>
+
+</div>
+</body>
+</html>
