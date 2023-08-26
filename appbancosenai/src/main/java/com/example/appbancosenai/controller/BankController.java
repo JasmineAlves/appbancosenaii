@@ -1,14 +1,17 @@
 package com.example.appbancosenai.controller;
 
-import com.example.appbancosenai.model.Account;
 import com.example.appbancosenai.model.AccountType;
 import com.example.appbancosenai.model.CurrentAccountPF;
 import com.example.appbancosenai.model.Person;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.websocket.server.PathParam;
 import java.text.Format;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -20,17 +23,18 @@ public class BankController implements CurrentAccount{
     @Autowired
     private Controller controller;
     private Long number = 0L;
-    public void delete(String name){                                //-----------------
-        bankRepository.delete(this.consultaConta(name));
+    StringBuilder message = new StringBuilder();
+    public Double consultaSaldo(CurrentAccountPF account) {
+        return null;
     }
 
-    public CurrentAccountPF criarConta(String   name, String accountType) throws Exception{
+
+    public CurrentAccountPF criarConta(String name, String type) throws Exception{
         CurrentAccountPF currentAccountPF = new CurrentAccountPF();
-        StringBuilder message = new StringBuilder();
-        if(accountType == null) {
+        if(type == null) {
             message.append("\nÉ necessário informar o tipo da conta!");
         }
-        switch (accountType){
+        switch (type){
             case "SAVING" :
                 currentAccountPF.setAccountType(AccountType.SAVING_ACCOUNT);
                 break;
@@ -38,14 +42,17 @@ public class BankController implements CurrentAccount{
                 currentAccountPF.setAccountType(AccountType.CURRENT_ACCOUNT);
             default :
                 message.append("\nO tipo da conta não é suportado!");
+                break;
         }
 
         Person person = controller.findPerson(name);
-        if (person != null && currentAccountPF.getError() == null   ){
+        if (person != null && currentAccountPF.getError() == null){
             number++;
             currentAccountPF.setAccountNumber(number);
             currentAccountPF.setPerson(person);
+            currentAccountPF.setDate(new Date());
             bankRepository.save(currentAccountPF);
+
         } else if (currentAccountPF.getError() == null){
             message.append("\nPessoa ");
             message.append(name).append(" não foi cadastrada!");
@@ -56,19 +63,24 @@ public class BankController implements CurrentAccount{
         return currentAccountPF;
     }
 
-    public CurrentAccountPF consultaConta(String name){
+    public CurrentAccountPF consultaConta(Long contaDestino){
 
         List<CurrentAccountPF> accounts = (List<CurrentAccountPF>) bankRepository.findAll();
 
         for (CurrentAccountPF ca : accounts) {
-            if (ca.getPerson() != null && ca.getPerson().getName().equals(name)){
-                if (ca.getDate().equals(new Date())){
-                    return ca;
-                } else {
+            if (ca.getPerson() != null && ca.getPerson().getId().equals(contaDestino.intValue())){
+
+                LocalDate currentDate = LocalDate.now();
+                LocalDate attDate = ca.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                long lastdate = ChronoUnit.DAYS.between(attDate, currentDate);
+
+
+                if (lastdate >= 1 && ca.getAccountType() == AccountType.SAVING_ACCOUNT){
                     ca.setDate(new Date());
-                    ca.setSaldo(ca.getSaldo() * 1.001);
+                    ca.setSaldo(ca.getSaldo() * Math.pow(1.001, lastdate));
                     bankRepository.save(ca);
                 }
+                return ca;
             }
         }
         return null;
