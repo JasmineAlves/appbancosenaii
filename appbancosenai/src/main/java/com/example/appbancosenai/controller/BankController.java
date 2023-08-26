@@ -89,10 +89,10 @@ public class BankController implements CurrentAccount{
     @Override
     public String depositar(Double quantidade, Long account) {
         String message = "";
-        //CurrentAccountPF conta = bankRepository.findById(account).get();
-        //conta.setSaldo(conta.getSaldo() + quantidade);
-        //bankRepository.save(conta);
-        //return message = "O depósito de " + quantidade + "foi realizado com sucesso!";
+        CurrentAccountPF conta = bankRepository.findById(account).get();
+        conta.setSaldo(conta.getSaldo() + quantidade);
+        bankRepository.save(conta);
+        return message = "O depósito de " + quantidade + "foi realizado com sucesso!";
         //Double total = account.getSaldo() + quantidade;
         //account.setSaldo(total);
     }
